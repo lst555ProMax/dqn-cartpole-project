@@ -1,0 +1,86 @@
+# PyCharm specific files
+.idea/
+
+# Python virtual environment
+# 如果你的虚拟环境文件夹在项目根目录下，并且名为 'venv' 或 'augmentLearning' (作为环境名)
+# 请取消注释并修改为你实际的虚拟环境文件夹名称
+# venv/
+# augmentLearning/
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Logs and databases
+*.log
+*.sql
+*.sqlite
+*.sqlite3
+
+# Temporary files
+*.tmp
+*.swp
+*~
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Secrets or sensitive configuration (if any, create specific rules)
+# 예를 들어, .env 파일이나 API 키가 들어있는 파일
+# .env
+# secrets.json
+
+# Large data files (if any, and not suitable for Git LFS)
+# data/*.csv
+# models/*.pth (if very large and not part of LFS)
+
+# IDE-specific (general, in case you open with other IDEs)
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Output files from your scripts (if they are generated and not source)
+# For example, if your dqn_test*.txt files are purely output and can be regenerated
+# you might consider ignoring them. However, if they contain important experimental
+# results you want to track, then DO NOT ignore them.
+# Based on your project, your .txt files seem to be results,
+# so I will NOT add them to .gitignore by default.
+# If you decide to ignore them, uncomment the line below:
+# *.txt
+
+# Compiled/built executables or libraries (if any)
+# *.exe
+# *.dll
+# *.so
+# *.dylib
+
+# Optuna storage (if you use SQLite storage and don't want to commit it)
+# *.db
+# optuna_results.db

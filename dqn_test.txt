@@ -1,0 +1,2 @@
+Model achieved 500 frames at episode: 136
+Model achieved 500 frames at episode: 148
