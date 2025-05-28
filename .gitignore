@@ -67,7 +67,7 @@ Thumbs.db
 *.sublime-workspace
 
 # Output files from your scripts (if they are generated and not source)
-# For example, if your dqn_test*.txt files are purely output and can be regenerated
+# For example, if your dqn_test*.txt files are purely dqn_output and can be regenerated
 # you might consider ignoring them. However, if they contain important experimental
 # results you want to track, then DO NOT ignore them.
 # Based on your project, your .txt files seem to be results,

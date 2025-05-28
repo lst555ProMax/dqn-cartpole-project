@@ -264,7 +264,7 @@ if __name__ == "__main__":
         print(f"    {key}: {value}")
 
     # Save results to a file
-    with open("dqn_test1_optuna.txt", "a") as f:
+    with open("../dqn_output/dqn_test1_optuna.txt", "a") as f:
         f.write(f"===== Optuna Study: {study.study_name} =====\n")
         f.write(f"Timestamp: {time.ctime()}\n")
         f.write(f"Number of trials: {N_OPTUNA_TRIALS}\n")

@@ -1,0 +1,52 @@
+===== Policy Gradient Training Results Report (Optimized Hyperparams & Early Termination) =====
+Hyperparameters: LR=0.02016594287454386, GAMMA=0.9860175118246439, HIDDEN_SIZE=16
+Success Criterion: Reach 500 frames (episode terminates immediately)
+Max Episodes per Run: 200
+------------------------------------------------------------
+Run ID | Success | Episode Achieved | Frames Achieved
+------------------------------------------------------------
+  01   |    Yes    |   039        |   500
+  02   |    Yes    |   171        |   500
+  03   |    Yes    |   058        |   500
+  04   |    Yes    |   158        |   500
+  05   |    Yes    |   078        |   500
+  06   |     No    |     ---        |     ---    
+  07   |     No    |     ---        |     ---    
+  08   |    Yes    |   105        |   500
+  09   |    Yes    |   150        |   500
+  10   |     No    |     ---        |     ---    
+  11   |    Yes    |   146        |   500
+  12   |    Yes    |   150        |   500
+  13   |    Yes    |   189        |   500
+  14   |    Yes    |   085        |   500
+  15   |     No    |     ---        |     ---    
+  16   |     No    |     ---        |     ---    
+  17   |     No    |     ---        |     ---    
+  18   |    Yes    |   071        |   500
+  19   |    Yes    |   165        |   500
+  20   |    Yes    |   064        |   500
+  21   |     No    |     ---        |     ---    
+  22   |    Yes    |   111        |   500
+  23   |    Yes    |   091        |   500
+  24   |    Yes    |   097        |   500
+  25   |     No    |     ---        |     ---    
+  26   |     No    |     ---        |     ---    
+  27   |    Yes    |   107        |   500
+  28   |    Yes    |   114        |   500
+  29   |    Yes    |   122        |   500
+  30   |     No    |     ---        |     ---    
+------------------------------------------------------------
+
+===== Statistical Summary =====
+Total Runs: 30
+Success Count (Reached 500 frames): 20
+Failure Count: 10
+Success Rate: 66.7%
+
+Average Episode to Achieve 500 Frames (Overall, failures counted as 200): 142.4
+Worst Episode (Overall max, including failures): 200
+Average Episode (min among successful runs): 113.5
+Best Episode (min among successful runs): 39
+Frames achieved in successful runs: 500
+
+===== Report End =====

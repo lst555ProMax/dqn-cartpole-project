@@ -1,0 +1,45 @@
+===== Policy Gradient Training Results Report =====
+Run ID | Success | Episode Achieved
+----------------------------------------
+  01   |     No    |     --    
+  02   |     No    |     --    
+  03   |    Yes    |   163
+  04   |     No    |     --    
+  05   |    Yes    |   188
+  06   |    Yes    |   126
+  07   |     No    |     --    
+  08   |    Yes    |   140
+  09   |    Yes    |   189
+  10   |    Yes    |   81
+  11   |    Yes    |   99
+  12   |     No    |     --    
+  13   |    Yes    |   81
+  14   |    Yes    |   175
+  15   |     No    |     --    
+  16   |     No    |     --    
+  17   |    Yes    |   184
+  18   |     No    |     --    
+  19   |    Yes    |   108
+  20   |     No    |     --    
+  21   |     No    |     --    
+  22   |    Yes    |   113
+  23   |    Yes    |   178
+  24   |     No    |     --    
+  25   |    Yes    |   162
+  26   |    Yes    |   146
+  27   |    Yes    |   113
+  28   |     No    |     --    
+  29   |    Yes    |   139
+  30   |    Yes    |   152
+
+===== Statistical Summary =====
+Total Runs: 30
+Success Count (Reached 500 frames): 18
+Failure Count: 12
+Success Rate: 60.0%
+
+Average Episode to Achieve 500 Frames (Overall, failures counted as 200): 164.6
+Worst Episode (Overall max): 200
+Best Episode (min among successful runs): 81
+
+===== Report End =====

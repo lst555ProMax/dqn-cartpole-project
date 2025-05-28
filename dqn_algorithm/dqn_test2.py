@@ -8,6 +8,9 @@ from torch.autograd import Variable
 import torch.nn.functional as F
 import numpy as np
 import gym
+import os
+import statistics
+import time
 
 # from alive_progress import alive_bar # 如果不需要进度条，可以注释掉
 
@@ -22,6 +25,9 @@ EPSILON_END = 0.045039045287420844
 EPSILON_DECAY_STEPS = 7000
 HIDDEN_SIZE = 64
 maximum_episode_length = 500
+
+# 定义最大训练回合数常量，用于失败时计入总和
+MAX_TRAIN_EPISODES_PER_RUN = 200 # 从 demo 函数的 while 循环条件推断
 
 
 # 注意：env应该在外部定义，DQN类不应该拥有自己的env实例，以保持通用性
@@ -170,23 +176,48 @@ def run_single_experiment(env_instance, n_states, n_actions, env_a_shape):
 if __name__ == "__main__":
     # 在main函数中创建环境，获取环境参数
     # 这样每次run_single_experiment都会使用同一个环境的定义，但可以有新的实例
+    # 或者，如果环境没有内部状态会影响下一次运行，可以重用env_main并reset
+    # 这里为了简单，我们假设env_main.reset()足以重置状态
     env_main = gym.make("CartPole-v1")
     env_main = env_main.unwrapped  # 确保使用未包装的环境以访问x_threshold等
     N_ACTIONS_MAIN = env_main.action_space.n
     N_STATES_MAIN = env_main.observation_space.shape[0]
     ENV_A_SHAPE_MAIN = 0 if isinstance(env_main.action_space.sample(), int) else env_main.action_space.sample().shape
 
-    with open("dqn_test2.txt", "a") as f:
+    # --- MODIFICATION START ---
+
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    # Assuming script is in dqn_algorithm/dqn_test2.py and output is in dqn_output/dqn_test2.txt
+    project_root = os.path.dirname(script_dir) # Go up one level from script_dir
+    output_dir = os.path.join(project_root, "dqn_output")
+
+    os.makedirs(output_dir, exist_ok=True)
+    output_file = os.path.join(output_dir, "dqn_test2.txt")
+
+
+    # Open the output file in WRITE mode ('w') to overwrite previous content
+    with open(output_file, "w") as f: # Changed "a" to "w"
         f.write("===== 训练结果报告 (使用优化参数) =====\n")
+        f.write(f"运行时间: {time.ctime()}\n") # Added timestamp as in previous reports
         f.write(
             f"Parameters: BATCH_SIZE={BATCH_SIZE}, LR={LR:.6f}, GAMMA={GAMMA:.6f}, TARGET_NETWORK_REPLACE_FREQ={TARGET_NETWORK_REPLACE_FREQ}, MEMORY_CAPACITY={MEMORY_CAPACITY}, EPSILON_START={EPSILON_START:.6f}, EPSILON_END={EPSILON_END:.6f}, EPSILON_DECAY_STEPS={EPSILON_DECAY_STEPS}, HIDDEN_SIZE={HIDDEN_SIZE}, MAX_EP_LEN={maximum_episode_length}\n")
+        # Clarify the evaluation metric in the header
+        f.write(f"评价指标: 计算所有运行的平均达成episode（失败记为{MAX_TRAIN_EPISODES_PER_RUN}）\n")
+        f.write("-" * 50 + "\n")
         f.write("运行次数 | 是否成功 | 达成episode\n")
         f.write("-" * 50 + "\n")
 
         success_count = 0
-        success_episodes = []
+        success_episodes = [] # Stores 0-indexed episode numbers ONLY for successful runs
         N_RUNS = 30  # 你期望的运行次数
+        # !!! New list to store episode counts for ALL runs (successful or failed) !!!
+        all_run_episode_counts = [] # Stores 1-based episode counts (failures = MAX_EPISODES_PER_RUN)
 
+
+        print(f"开始进行 {N_RUNS} 次独立训练运行...")
+        # Consider adding an outer alive_bar here for the 30 runs if desired
+        # from alive_progress import alive_bar # Uncomment at the top if needed
+        # with alive_bar(N_RUNS, title="Overall Progress") as bar: # Uncomment if adding outer bar
         for run_id in range(N_RUNS):
             print(f"\n--- Starting Run {run_id + 1}/{N_RUNS} with optimized params ---")
             f.write(f"  第{run_id + 1:02d}次  |")
@@ -194,35 +225,60 @@ if __name__ == "__main__":
             # 每次运行都使用相同的环境定义，但可以是一个新的实例（如果需要完全隔离）
             # 或者，如果环境没有内部状态会影响下一次运行，可以重用env_main并reset
             # 这里为了简单，我们假设env_main.reset()足以重置状态
-            achieved_episode_in_run = run_single_experiment(env_main, N_STATES_MAIN, N_ACTIONS_MAIN, ENV_A_SHAPE_MAIN)
+            achieved_episode_in_run = run_single_experiment(env_main, N_STATES_MAIN, N_ACTIONS_MAIN, ENV_A_SHAPE_MAIN) # This returns 0-indexed episode or None
 
             if achieved_episode_in_run is not None:
                 success_count += 1
-                success_episodes.append(achieved_episode_in_run)
-                f.write(f"    成功    |   {achieved_episode_in_run:3d}\n")  # 格式化输出
-                print(f"Run {run_id + 1}: Success, solved in {achieved_episode_in_run} episodes.")
+                success_episodes.append(achieved_episode_in_run) # Store 0-indexed for internal success stats
+                # For overall stats, store 1-based episode count
+                all_run_episode_counts.append(achieved_episode_in_run + 1)
+                f.write(f"    成功    |   {achieved_episode_in_run + 1:3d}\n")  # Report 1-based episode
+                print(f"Run {run_id + 1}: Success, solved in {achieved_episode_in_run + 1} episodes.") # Print 1-based
             else:
+                # If failed, append the maximum number of episodes allowed for the run
+                all_run_episode_counts.append(MAX_TRAIN_EPISODES_PER_RUN)
                 f.write(f"    失败    |     --    \n")
-                print(f"Run {run_id + 1}: Failed to solve within episodes.")
+                print(f"Run {run_id + 1}: Failed to solve within {MAX_TRAIN_EPISODES_PER_RUN} episodes.")
+
+            # if 'bar' in locals(): bar() # Uncomment if adding outer bar
+
+
+        # Close environment after all runs
+        env_main.close()
 
         f.write("\n===== 统计摘要 =====\n")
         f.write(f"总运行次数: {N_RUNS}\n")
-        f.write(f"成功次数: {success_count}\n")
+        f.write(f"成功次数 (达到{maximum_episode_length}帧): {success_count}\n") # Clarify success criterion
         f.write(f"失败次数: {N_RUNS - success_count}\n")
 
+        # Calculate and report OVERALL statistics including failures
+        if all_run_episode_counts: # Check if any runs were attempted
+            # Use statistics.mean for robustness
+            avg_episode_overall = statistics.mean(all_run_episode_counts)
+            worst_episode_overall = max(all_run_episode_counts) # Max value in the list, including MAX_EPISODES_PER_RUN
+            f.write(f"\n平均达成episode (总体, 失败记为{MAX_TRAIN_EPISODES_PER_RUN}): {avg_episode_overall:.1f}\n") # Updated description
+            f.write(f"最差成绩 (总体): {worst_episode_overall}\n") # Overall worst is max episode count
+
+
+        # Calculate and report statistics ONLY for successful runs
         if success_count > 0:
-            avg_episode = sum(success_episodes) / success_count
-            min_ep = min(success_episodes)
-            max_ep = max(success_episodes)
-            f.write(f"\n平均达成episode: {avg_episode:.1f}\n")
-            f.write(f"最佳成绩 (达成episode): {min_ep}\n")  # episode越小越好
-            f.write(f"最差成绩 (达成episode): {max_ep}\n")
-            print(f"\nSummary: Avg episodes to solve: {avg_episode:.1f}, Best: {min_ep}, Worst: {max_ep}")
+            # Convert 0-indexed success_episodes to 1-based for reporting
+            successful_episodes_1based = [ep + 1 for ep in success_episodes]
+            avg_episode_successful = statistics.mean(successful_episodes_1based)
+            min_ep_successful = min(successful_episodes_1based)
+            max_ep_successful = max(successful_episodes_1based) # Added max for successful runs
+            f.write(f"平均达成episode (成功运行): {avg_episode_successful:.1f}\n") # Average among successful runs
+            f.write(f"最佳成绩 (成功运行达成episode): {min_ep_successful} (episode越小越好)\n")
+            f.write(f"最差成绩 (成功运行达成episode): {max_ep_successful}\n") # Worst among successful runs
+
+            print(f"\nSummary: Avg episodes to solve (Successful Runs): {avg_episode_successful:.1f}, Best: {min_ep_successful}, Worst: {max_ep_successful}")
         else:
-            f.write("\n所有运行均未达到目标帧数\n")
-            print("\nSummary: No run successfully solved the environment.")
+            f.write("\n所有运行均未达到目标帧数，无成功运行统计\n")
+            print(f"\nSummary: No run successfully solved the environment within {MAX_TRAIN_EPISODES_PER_RUN} episodes.")
 
         f.write("\n===== 报告结束 =====")
 
-    print(f"\nOptimized parameter run report saved to dqn_test2.txt")
-    env_main.close()  # 关闭环境
+    # --- MODIFICATION END ---
+
+    print(f"\nOptimized parameter run report saved to {output_file}")
+    # env_main.close() # Moved env.close() inside the 'with open' block before final print

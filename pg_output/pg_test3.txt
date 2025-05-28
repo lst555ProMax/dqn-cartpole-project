@@ -1,0 +1,55 @@
+===== Actor-Critic Training Results Report (Newly Optimized Hyperparams) =====
+Hyperparameters: LR=0.024006, GAMMA=0.93192, HIDDEN_SIZE=16
+AC Params: Critic LR Ratio=1.385, Critic Loss Coeff=0.20856, Entropy Coeff=0.0050971
+Reward Signal for Learning: Custom Reward (rtheta + r + rx)
+Value Estimation Method: Learned Value Function (Critic)
+Success Criterion: Reach 500 frames (episode terminates immediately)
+Max Episodes per Run: 200
+--------------------------------------------------------------------------------
+Run ID | Success | Episode Achieved | Frames Achieved
+--------------------------------------------------------------------------------
+  01   |     No    |     ---        |     ---    
+  02   |     No    |     ---        |     ---    
+  03   |     No    |     ---        |     ---    
+  04   |     No    |     ---        |     ---    
+  05   |    Yes    |   161        |   500
+  06   |    Yes    |   146        |   500
+  07   |     No    |     ---        |     ---    
+  08   |     No    |     ---        |     ---    
+  09   |     No    |     ---        |     ---    
+  10   |     No    |     ---        |     ---    
+  11   |     No    |     ---        |     ---    
+  12   |     No    |     ---        |     ---    
+  13   |     No    |     ---        |     ---    
+  14   |     No    |     ---        |     ---    
+  15   |     No    |     ---        |     ---    
+  16   |     No    |     ---        |     ---    
+  17   |     No    |     ---        |     ---    
+  18   |     No    |     ---        |     ---    
+  19   |     No    |     ---        |     ---    
+  20   |     No    |     ---        |     ---    
+  21   |     No    |     ---        |     ---    
+  22   |     No    |     ---        |     ---    
+  23   |     No    |     ---        |     ---    
+  24   |     No    |     ---        |     ---    
+  25   |     No    |     ---        |     ---    
+  26   |     No    |     ---        |     ---    
+  27   |     No    |     ---        |     ---    
+  28   |     No    |     ---        |     ---    
+  29   |     No    |     ---        |     ---    
+  30   |     No    |     ---        |     ---    
+--------------------------------------------------------------------------------
+
+===== Statistical Summary =====
+Total Runs: 30
+Success Count (Reached 500 frames): 2
+Failure Count: 28
+Success Rate: 6.7%
+
+Average Episode to Achieve 500 Frames (Overall, failures counted as 200): 196.9
+Worst Episode (Overall max, including failures): 200
+Average Episode (min among successful runs): 153.5
+Best Episode (min among successful runs): 146
+Frames achieved in successful runs: 500
+
+===== Report End =====

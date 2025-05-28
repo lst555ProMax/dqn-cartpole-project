@@ -208,7 +208,7 @@ def demo():
 
     # 写入结果到文件
     if max_frames_achieved:
-        with open("dqn_test.txt", "w") as f:
+        with open("../dqn_output/dqn_test.txt", "w") as f:
             f.write(f"Model achieved 500 frames at episode: {achieved_episode}")
         print(f"\nSuccess! Log saved to dqn_test.txt")
     else:
