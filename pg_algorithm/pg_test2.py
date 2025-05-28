@@ -1,4 +1,6 @@
-# pg_test2.py - Optimized Hyperparameters (Modified Termination Logic)
+'''
+标准Policy Gradient，应用pg_test1_optuna找到的优化超参数，使用自定义奖励和Tanh网络。
+'''
 
 import torch
 import torch.nn as nn

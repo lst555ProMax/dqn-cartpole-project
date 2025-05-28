@@ -1,5 +1,5 @@
 '''
-在test2的基础上将DQN改为DDQN之后的版本
+Double DQN (DDQN)，应用dqn_test3_optuna找到的优化超参数，是本次实验中DQN/DDQN最优版本。
 '''
 
 import torch

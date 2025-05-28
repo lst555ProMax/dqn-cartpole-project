@@ -1,3 +1,7 @@
+'''
+最初的Policy Gradient (REINFORCE) 版本，有可视化运行比较慢，使用自定义奖励。
+'''
+
 import torch
 import torch.nn as nn
 import torch.distributions as Dist

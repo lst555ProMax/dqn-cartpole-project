@@ -1,4 +1,6 @@
-# pg_test4.py - Actor-Critic with Newly Optimized Hyperparameters
+'''
+Actor-Critic版本，应用pg_test3_optuna找到的优化超参数，使用自定义奖励。
+'''
 
 import torch
 import torch.nn as nn

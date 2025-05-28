@@ -1,3 +1,7 @@
+'''
+在pg_test基础上，优化评估流程和指标：去除可视化，frame达到500即停止并记录episode，重复30次计算总体平均episode。使用自定义奖励和回合平均Baseline。
+'''
+
 import torch
 import torch.nn as nn
 import torch.distributions as Dist

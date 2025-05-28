@@ -1,4 +1,6 @@
-# pg_test4.py - Policy Gradient with Original Reward, Baseline, RELU Net, and Manually Tuned Hidden Size
+'''
+回到标准Policy Gradient，使用原始环境奖励和回合Baseline，应用pg_test1_optuna的LR/GAMMA，但优化网络结构为ReLU/Kaiming初始化，并尝试不同隐藏层大小。
+'''
 
 import torch
 import torch.nn as nn

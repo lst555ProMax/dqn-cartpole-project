@@ -1,5 +1,5 @@
 '''
-根据dqn_test1_optuna代码中计算得到的新的超参数就行优化的版本
+标准DQN，应用dqn_test1_optuna找到的优化超参数。
 '''
 
 import torch

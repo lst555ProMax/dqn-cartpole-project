@@ -1,6 +1,5 @@
 '''
-dqn_test3_optuna.py - Optuna optimization for Double DQN (DDQN) on CartPole
-借鉴 dqn_test1_optuna.py 结构，优化 DDQN 模型超参数
+用Optuna为Double DQN (DDQN) 寻找优化超参数的脚本。
 '''
 
 import torch

@@ -1,5 +1,5 @@
 '''
-简化代码，去除可视化，同时一旦frame达到500就停止运行，记录当前episode值，以上重复30次计算episode均值作为模型的评价指标
+在dqn_test基础上，优化评估流程和指标：去除可视化，frame达到500即停止并记录episode，重复30次计算总体平均episode。
 '''
 
 import torch

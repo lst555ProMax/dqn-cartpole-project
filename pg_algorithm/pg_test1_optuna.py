@@ -1,7 +1,7 @@
 '''
-一个特殊的版本，用optuna库和对应的操作寻找相对较优的超参数
-Policy Gradient for CartPole
+用Optuna为标准Policy Gradient寻找优化超参数的脚本。
 '''
+
 
 import torch
 import torch.nn as nn

@@ -1,6 +1,5 @@
 '''
-pg_test3_optuna.py - Optuna optimization for Actor-Critic Policy Gradient on CartPole
-Fixed HIDDEN_SIZE to 128. Optimizing LR, GAMMA, CRITIC_LR_RATIO, CRITIC_LOSS_COEFF, ENTROPY_COEFF.
+用Optuna为Actor-Critic寻找优化超参数的脚本。
 '''
 
 import torch
