@@ -111,6 +111,44 @@
     *   **放弃 AC 改进，专注于网络结构优化：** 在 `pg_test3` (应用优化参数后仍性能不佳) 表现不理想后，放弃了 AC 架构的进一步优化，**转而探索优化基础 PG 模型的网络结构**。
     *   **网络结构改进：** 将网络激活函数改为 ReLU，权重初始化改为 Kaiming 初始化。**沿用 `pg_test1_optuna` 的 LR 和 GAMMA 参数**。尝试了不同数量和大小的隐藏层组合（在此报告中，选取 `pg_test4.txt` 中表现最佳的配置，即 2 层隐藏层，大小为 16）。
 
+## 数据处理与结果可视化
+
+`data_process` 目录下包含用于解析训练日志文件 (`.txt`) 并生成算法性能对比图的 Python 脚本。这些脚本旨在提供不同优化阶段的性能概览，帮助理解算法改进的效果。
+
+### 1. 脚本说明
+
+*   `compare_stage1.py`: 用于进行 **第一次对比 (原始版本)**。它会解析 `dqn_output/dqn_test1.txt` 和 `pg_output/pg_test1.txt` 中的数据，对比DQN和Policy Gradient的基线性能。
+*   `compare_stage2.py`: 用于进行 **第二次对比 (优化参数)**。它会解析 `dqn_output/dqn_test2.txt` 和 `pg_output/pg_test2.txt` 中的数据，对比应用第一轮超参数优化后的DQN和Policy Gradient性能。
+*   `compare_stage3.py`: 用于进行 **第三次对比 (增强算法)**。它会解析 `dqn_output/dqn_test4.txt` 和 `pg_output/pg_test4.txt` 中的数据。特别地，对于 `pg_test4.txt`，它会读取其中 **"2 Hidden Layers, Size 16" 配置的最佳性能数据**。
+
+
+### 2. 生成的图表
+
+所有脚本生成的图表都统一保存在 `data_process/plots/` 目录下。每个图表文件名都包含了其对应的对比阶段描述，例如 `_第一次对比_原始版本.png` 或 `_第三次对比_增强算法.png`，以便于识别和管理。生成的图表类型包括：
+
+*   **算法成功率对比 (Bar Chart):** 直观比较不同算法在各阶段的成功率。
+*   **算法性能指标对比 (Grouped Bar Chart):** 对比总体平均达成Episode数、成功运行平均达成Episode数和最佳达成Episode数（数值越低越好）。
+*   **成功运行Episode数分布 (Box Plot + Stripplot):** 展示成功运行的Episode数分布情况。
+*   **所有运行Episode数分布 (Histogram + KDE):** 展示包含失败运行（计为200 Episode）在内的所有运行的Episode数分布。
+*   **所有运行Episode数散点图 (Stripplot):** 以散点图形式展示每次运行的Episode数，并区分成功与失败。
+
+### 3. 如何运行可视化脚本
+
+请在项目根目录下（`augmentLearning` 目录），并激活 `augmentLearning` conda 环境后，运行以下命令：
+
+*   **生成第一次对比图表:**
+    ```bash
+    python data_process/compare_stage1.py
+    ```
+*   **生成第二次对比图表:**
+    ```bash
+    python data_process/compare_stage2.py
+    ```
+*   **生成第三次对比图表:**
+    ```bash
+    python data_process/compare_stage3.py
+    ```
+
 ## 优化结果对比
 
 下表总结了不同主要模型版本在 CartPole-v1 环境下，经过30次独立运行后的性能统计。所有版本均采用统一的评估流程和指标。
